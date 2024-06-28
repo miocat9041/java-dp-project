@@ -27,6 +27,7 @@ public class DatabaseConnection {
                 System.out.println("參數檔不存在，或是空的內容。");
                 return;
             }
+            //載入參數檔內容
             prop.load(inputStream);
         } catch (IOException e){
             System.out.println("資料庫參數讀取失敗");
@@ -37,6 +38,7 @@ public class DatabaseConnection {
         String url = prop.getProperty("db.url");
         String user = prop.getProperty("db.user");
         String password = prop.getProperty("db.password");
+
 
         //設定連線
         Connection conn = null;
@@ -53,9 +55,59 @@ public class DatabaseConnection {
                 String colName = rs.getString("name");
                 String colSid = rs.getString("sid");
                 String colEmail = rs.getString("email");
+                System.out.printf("Name:%20s    Sid: %10s     Email:%s \n",colName,colSid,colEmail);
+
+            }
+            //Step2：條件查詢 ,查詢name這個欄位有包含Joanne的資料
+            sqlStr = "select * from students where name like '%Joanne%';";
+            rs = st.executeQuery(sqlStr);
+            System.out.println("查詢name這個欄位,有包含Joanne內容如下:");
+            System.out.println("=====================================");
+            while (rs.next()){
+                String colName = rs.getString("name");
+                String colSid = rs.getString("sid");
+                String colEmail = rs.getString("email");
                 System.out.printf("Name:%s    Sid: %s     Email:%s \n",colName,colSid,colEmail);
 
             }
+            //複數查詢，查詢name有包含的資料，email欄位有包含ssss開頭的 
+            sqlStr = "select * from students where name like '%Joanne%' and email like 'ssss%';";
+            rs = st.executeQuery(sqlStr);
+            System.out.println("查詢name這個欄位,有包含Joanne,email欄位有包含sss開頭的內容如下:");
+            System.out.println("=====================================");
+            while (rs.next()){
+                String colName = rs.getString("name");
+                String colSid = rs.getString("sid");
+                String colEmail = rs.getString("email");
+                System.out.printf("Name:%s    Sid: %s     Email:%s \n",colName,colSid,colEmail);
+
+            }
+            System.out.println("=====================================");
+
+            /* step3:新增紀錄
+            sqlStr ="insert into students(name, email , sid) values('Marco','A09@myschool.edu','A09'),('Timmy','A10@myschool.edu','A10');";
+            //只有查詢資料語法可以用executeQuery，其他如新增、更新、刪除，對應使用都是executeUpedate
+            int rowsInserted = st.executeUpdate(sqlStr);
+            if(rowsInserted > 0){
+                System.out.println("已成功新增記錄");
+            }
+
+            System.out.println("=====================================");*/
+
+            //step4:更新資料皆需下“where"的條件句，否則可能會改到整張表單
+            sqlStr ="update students set name = 'Olivia', sid ='A11' where name ='Timmy';";
+            int updateStatus = st.executeUpdate(sqlStr);
+            if(updateStatus > 0){
+                System.out.println("已成功更新記錄");
+            }
+
+            /*step5:刪除紀錄(但通常不會去設刪除因為刪了救不回來，通常會把物件設成“待刪除狀態就好”)
+            sqlStr ="delete from students where name in('Olivia');";
+            updateStatus = st.executeUpdate(sqlStr);
+            if(updateStatus > 0){
+            System.out.println("已成功刪除記錄");
+            } */
+
 
             conn.close();
         } catch (SQLException e){
