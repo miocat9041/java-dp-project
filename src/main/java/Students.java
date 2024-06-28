@@ -7,7 +7,7 @@ public class Students {
     private String major;
     private boolean isDeleted;
     //建構子
-    public Students( String argName, String argSid, String argEmail, int argAge, String argMajor){
+    public Students( String argName, String argSid, String argEmail,String argMajor, int argAge){
         this.name = argName;
         this.sid =argSid;
         this.email =argEmail;
