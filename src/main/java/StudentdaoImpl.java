@@ -11,6 +11,7 @@ public class StudentdaoImpl implements StudentDAO{
         //取得資料庫連線
         this.conn = DatabaseConnection.getConnection();
     }
+    //新增學生資料
     @Override
     public void addStudents(Students stud) throws SQLException{
         //有幾個數值要回傳後面預載就要有幾個問號
@@ -25,22 +26,58 @@ public class StudentdaoImpl implements StudentDAO{
             st.executeUpdate();
         }
     }
+    //新增成績
+    @Override
+    public void addScore(Students studscore) throws SQLException{
+        //有幾個數值要回傳後面預載就要有幾個問號
+        String sqlStr ="insert into scores ( sid, subject, score ) values (?,?,?);";
+        try(PreparedStatement st = conn.prepareStatement(sqlStr)){
+            st.setString(1, studscore.getSid());
+            st.setString(2, studscore.getSubject());
+            st.setDouble(3, studscore.getScore());
+            st.executeUpdate();
+        }
+    }
+    //更新學生資料
     @Override
     public void updateStudents(Students stud)throws SQLException{
-        String sqlStr ="update Students set name =?, sid=?,email=?,age=?,major=? where no=?;";
+        String sqlStr ="update Students set name =?, email=?,age=?,major=? where sid=?;";
         try(PreparedStatement st = conn.prepareStatement(sqlStr)){
             st.setString(1, stud.getName());
-            st.setString(2, stud.getSid());
-            st.setString(3, stud.getEmail());
-            st.setInt(4, stud.getAge());
-            st.setString(5, stud.getMajor());
-            st.setInt(6, stud.getNo());
+            st.setString(2, stud.getEmail());
+            st.setInt(3, stud.getAge());
+            st.setString(4, stud.getMajor());
+            st.setString(5, stud.getSid());
+            //st.setInt(6, stud.getNo());
             //insert,update,delete都用excuteUpdate
             st.executeUpdate();
         }
     }
+    //更新學生成績
+    @Override
+    public void updateScore(Students studscore)throws SQLException{
+        String sqlStr ="update scores set score =?  where sid=? and subject= ?;";
+        try(PreparedStatement st = conn.prepareStatement(sqlStr)){
+            st.setDouble(1, studscore.getScore());
+            st.setString(2, studscore.getSid());
+            st.setString(3, studscore.getSubject());
+            st.executeUpdate();
+        }
+    }
+    //標記刪除資料用
+    @Override
+    public void updateStudentsFlag(String argSid)throws SQLException{
+        String sqlStr ="update Students set is_deleted=?  where sid=?;";
+        try(PreparedStatement st = conn.prepareStatement(sqlStr)){
+            st.setInt(1, 1);
+            st.setString(2,argSid);
+            st.executeUpdate();
+        }
+    }
+    //刪除學生資料
     @Override
     public void deleteStudents(int argNo) throws SQLException{
+        //實際刪除資料的語法
         String sqlStr = "delete from students where no=?;";
         try (PreparedStatement st = conn.prepareStatement(sqlStr)){
             st.setInt(1, argNo);
@@ -50,8 +87,8 @@ public class StudentdaoImpl implements StudentDAO{
     }
     //利用學號查詢資料
 @Override
-public Students getStudentById(String argSid)throws SQLException{
-    String sqlStr ="select * from students where sid=? and is_deleted=FALSE";
+    public Students getStudentById(String argSid)throws SQLException{
+    String sqlStr ="select * from students where sid=? and is_deleted=0";
     //上面and 要記得空格
     try(PreparedStatement st = conn.prepareStatement(sqlStr)){
         st.setString(1, argSid);
@@ -73,7 +110,7 @@ public Students getStudentById(String argSid)throws SQLException{
     //利用學生姓名查詢資料
     @Override
     public List<Students> getStudentByName(String argName)throws SQLException{
-        String sqlStr ="select * from students where name=? and is_deleted=FALSE";
+        String sqlStr ="select * from students where name=? and is_deleted= 0";
         //因為此方法要回傳list 物件，所以在這裡先宣告一個
         List<Students> students = new ArrayList<>();
         try(PreparedStatement st = conn.prepareStatement(sqlStr)){
@@ -89,6 +126,24 @@ public Students getStudentById(String argSid)throws SQLException{
                             ));
                             }
                         }
-                        return null;
+                        return students;
+                    }
+    @Override
+    public List<Students> getScoreBySid(String argSid)throws SQLException{
+        String sqlStr ="select * from scores where sid=?";
+        //因為此方法要回傳list 物件，所以在這裡先宣告一個
+        List<Students> scores = new ArrayList<>();
+        try(PreparedStatement st = conn.prepareStatement(sqlStr)){
+            st.setString(1, argSid);
+            ResultSet rs =st.executeQuery();
+            while (rs.next()) {
+                //利用students arrarylist的add方法，把資料集集成新的學生物件，指定給students arrarylist作為新的元素。
+                scores.add(new Students(rs.getString("sid"),
+                            rs.getString("subject"),
+                            rs.getDouble("score")
+                            ));
+                            }
+                        }
+                        return scores;
                     }
                 }

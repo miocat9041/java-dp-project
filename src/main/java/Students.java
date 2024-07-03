@@ -6,7 +6,15 @@ public class Students {
     private int age;
     private String major;
     private boolean isDeleted;
+    private String subject;
+    private double score;
+
     //建構子
+    public Students( String argSid,String argSubject,double argScore){
+        this.sid = argSid;
+        this.score = argScore;
+        this.subject = argSubject;
+    }
     public Students( String argName, String argSid, String argEmail,String argMajor, int argAge){
         this.name = argName;
         this.sid =argSid;
@@ -58,6 +66,18 @@ public class Students {
     }
     public void setIsDeleted(boolean argisDeleted){
         this.isDeleted =argisDeleted;
+    }
+    public double getScore(){
+        return score;
+    }
+    public void setScore(double argScore){
+        this.score =argScore;
+    }
+    public String getSubject(){
+        return subject;
+    }
+    public void setSubject(String argSubject){
+        this.subject =argSubject;
     }
 }
 
