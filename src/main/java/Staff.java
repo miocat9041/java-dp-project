@@ -1,84 +1,77 @@
-/*public class Staff
-{
-	private int _no;
-	public int getno()
-	{
-		return this._no;
-	}
-	public void setno(int value)
-	{
-		this._no = value;
-	}
+public class Staff {
+    private int no;
+    private String name;
+    private String tid;
+    private int age;
+    private String tsubject;
+    private int isDeleted;
+    private int salary;
+    private String mdept;
+    private String type;
 
-	private String _name;
-	public String getname()
-	{
-		return this._name;
-	}
-	public void setname(String value)
-	{
-		this._name = value;
-	}
-
-	private int _age;
-	public int getage()
-	{
-		return this._age;
-	}
-	public void setage(int value)
-	{
-		this._age = value;
-	}
-
-	private long _salary;
-	public long getsalary()
-	{
-		return this._salary;
-	}
-	public void setsalary(long value)
-	{
-		this._salary = value;
-	}
-
-	private String _dept;
-	public String getdept()
-	{
-		return this._dept;
-	}
-	public void setdept(String value)
-	{
-		this._dept = value;
-	}
-
-	private String _teacher_subject;
-	public String getteacher_subject()
-	{
-		return this._teacher_subject;
-	}
-	public void setteacher_subject(String value)
-	{
-		this._teacher_subject = value;
-	}
-
-	private String _manage_dept;
-	public String getmanage_dept()
-	{
-		return this._manage_dept;
-	}
-	public void setmanage_dept(String value)
-	{
-		this._manage_dept = value;
-	}
-
-
-	public staff(int no_,String name_,int age_,long salary_,String dept_,String teacher_subject_,String manage_dept_)
-	{
-		this.no = no_;
-		this.name = name_;
-		this.age = age_;
-		this.salary = salary_;
-		this.dept = dept_;
-		this.teacher_subject = teacher_subject_;
-		this.manage_dept = manage_dept_;
-	}
-}*/
+    public Staff (String argName, String argTid, int argAge,String argTsubject, int argSalary,String argMdept,String argType){
+        this.name = argName;
+        this.tid =argTid;
+        this.age = argAge;
+        this.tsubject = argTsubject;
+        this.salary =argSalary;
+        this.mdept = argMdept;
+        this.type = argType;
+        this.isDeleted = 0;
+    }
+    public int getNo(){
+        return no;
+    }
+    public void setNo(int argNo){
+        this.no =argNo;
+    }
+    public String getName(){
+        return name;
+    }
+    public void setName(String argName){
+        this.name =argName;
+    }
+    public String getTid(){
+        return tid;
+    }
+    public void setTid(String argTid){
+        this.tid =argTid;
+    }
+    public int getAge(){
+        return age;
+    }
+    public void setAge(int argAge){
+        this.age =argAge;
+    }
+    public String getTsubject(){
+        return tsubject;
+    }
+    public void setTsubject(String argTsubject){
+        this.tsubject =argTsubject;
+    }
+    public int getSalary(){
+        return salary;
+    }
+    public void setSalary(int argSalary){
+        this.salary =argSalary;
+    }
+    public int getIsDeleted(){
+        return isDeleted;
+    }
+    public void setIsDeleted(int argisDeleted){
+        this.isDeleted =argisDeleted;
+    }
+    public String getMdept(){
+        return mdept;
+    }
+    public void setMdept(String argMdept){
+        this.mdept =argMdept;
+    }
+    public String getType(){
+        return type;
+    }
+    public void setType(String argType){
+        this.type =argType;
+    }
+    
+}
